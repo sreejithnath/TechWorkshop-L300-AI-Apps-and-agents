@@ -1,17 +1,24 @@
-name: Run Shopper Agent
+name: Test Customer Loyalty Agent
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'src/app/agents/shopperAgent_initializer.py'
-      - 'src/prompts/ShopperAgentPrompt.txt'
+      - 'src/app/agents/customerLoyaltyAgent_initializer.py'
+      - 'src/prompts/CustomerLoyaltyAgentPrompt.txt'
+      - 'src/app/tools/discountLogic.py'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/app/agents/customerLoyaltyAgent_initializer.py'
+      - 'src/prompts/CustomerLoyaltyAgentPrompt.txt'
       - 'src/app/tools/discountLogic.py'
   workflow_dispatch:
 
 jobs:
-  run-agent:
+  test-agent:
     runs-on: ubuntu-latest
     
     steps:
@@ -22,11 +29,12 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: 'pip'
       
       - name: Install dependencies
-        working-directory: ./src
         run: |
-          python -m pip install --upgrade pip
+          cd src
+          pip install --upgrade pip
           pip install -r requirements.txt
       
       - name: Create .env file from secret
@@ -39,13 +47,14 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      - name: Run Shopper Agent Initializer
+      - name: Run Customer Loyalty Agent
         working-directory: ./src
         run: |
-          set -a
-          source .env
-          set +a
-          python app/agents/shopperAgent_initializer.py
+          python app/agents/customerLoyaltyAgent_initializer.py
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       
       - name: Clean up .env file
         if: always()

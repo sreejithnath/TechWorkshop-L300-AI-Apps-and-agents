@@ -42,11 +42,10 @@ jobs:
       - name: Run Inventory Agent Initializer
         working-directory: ./src
         run: |
+          set -a
+          source .env
+          set +a
           python app/agents/inventoryAgent_initializer.py
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       
       - name: Clean up .env file
         if: always()
