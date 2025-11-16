@@ -7,6 +7,11 @@ from azure.identity import DefaultAzureCredential
 from azure.ai.agents.models import FunctionTool, ToolSet
 from typing import Callable, Set, Any
 from tools.imageCreationTool import create_image
+from dotenv import load_dotenv
+
+# Load environment variables from .env file in src directory
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), '.env')
+load_dotenv(dotenv_path=env_path)
 
 # Load the prompt instructions for the interior design agent from a file
 # path = r'prompts\InteriorDesignAgentPrompt.txt'

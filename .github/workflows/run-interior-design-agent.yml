@@ -42,9 +42,6 @@ jobs:
       - name: Run Interior Design Agent Initializer
         working-directory: ./src
         run: |
-          set -o allexport
-          source .env
-          set +o allexport
           python app/agents/interiorDesignAgent_initializer.py
       
       - name: Clean up .env file

@@ -42,9 +42,6 @@ jobs:
       - name: Run Customer Loyalty Agent Initializer
         working-directory: ./src
         run: |
-          set -o allexport
-          source .env
-          set +o allexport
           python app/agents/customerLoyaltyAgent_initializer.py
       
       - name: Clean up .env file

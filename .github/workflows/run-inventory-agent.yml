@@ -42,9 +42,6 @@ jobs:
       - name: Run Inventory Agent Initializer
         working-directory: ./src
         run: |
-          set -o allexport
-          source .env
-          set +o allexport
           python app/agents/inventoryAgent_initializer.py
       
       - name: Clean up .env file

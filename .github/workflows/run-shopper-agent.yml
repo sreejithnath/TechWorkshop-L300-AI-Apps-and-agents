@@ -42,9 +42,6 @@ jobs:
       - name: Run Shopper Agent Initializer
         working-directory: ./src
         run: |
-          set -o allexport
-          source .env
-          set +o allexport
           python app/agents/shopperAgent_initializer.py
       
       - name: Clean up .env file

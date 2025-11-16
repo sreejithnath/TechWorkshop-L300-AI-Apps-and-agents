@@ -9,7 +9,10 @@ from typing import Callable, Set, Any
 import json
 from tools.inventoryCheck import inventory_check
 from dotenv import load_dotenv
-load_dotenv()
+
+# Load environment variables from .env file in src directory
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), '.env')
+load_dotenv(dotenv_path=env_path)
 
 IA_PROMPT_TARGET = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'prompts', 'InventoryAgentPrompt.txt')
 with open(IA_PROMPT_TARGET, 'r', encoding='utf-8') as file:
