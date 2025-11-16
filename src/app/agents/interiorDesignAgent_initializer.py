@@ -14,8 +14,8 @@ ID_PROMPT_TARGET = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
 with open(ID_PROMPT_TARGET, 'r', encoding='utf-8') as file:
     ID_PROMPT = file.read()
 
-project_endpoint = os.environ["AZURE_AI_AGENT_ENDPOINT"]
-agent_id = os.environ["interior_designer"]
+project_endpoint = os.getenv("AZURE_AI_AGENT_ENDPOINT")
+agent_id = os.getenv("interior_designer")  # Use getenv instead of environ to avoid KeyError
 
 
 project_client = AIProjectClient(
@@ -38,10 +38,14 @@ project_client.agents.enable_auto_function_calls(tools=functions)
 with project_client:
     agent_exists = False
     if agent_id:
-        # Check if agent exists.
-        agent = project_client.agents.get_agent(agent_id)
-        print(f"Retrieved existing agent, ID: {agent.id}")
-        agent_exists = True
+        try:
+            # Check if agent exists.
+            agent = project_client.agents.get_agent(agent_id)
+            print(f"Retrieved existing agent, ID: {agent.id}")
+            agent_exists = True
+        except Exception as e:
+            print(f"Agent not found or error retrieving: {e}")
+            agent_exists = False
     
     if agent_exists:
         agent = project_client.agents.update_agent(
