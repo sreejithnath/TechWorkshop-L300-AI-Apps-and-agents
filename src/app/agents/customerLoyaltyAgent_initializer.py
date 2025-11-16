@@ -18,6 +18,12 @@ from dotenv import load_dotenv
 env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), '.env')
 print(f"Loading .env from: {env_path}")
 print(f".env file exists: {os.path.exists(env_path)}")
+if os.path.exists(env_path):
+    print(f"First 5 lines of .env:")
+    with open(env_path, 'r') as f:
+        for i, line in enumerate(f):
+            if i < 5:
+                print(f"  {line.rstrip()}")
 load_dotenv(dotenv_path=env_path)
 print(f"AZURE_AI_AGENT_ENDPOINT after load_dotenv: {os.getenv('AZURE_AI_AGENT_ENDPOINT')}")
 
