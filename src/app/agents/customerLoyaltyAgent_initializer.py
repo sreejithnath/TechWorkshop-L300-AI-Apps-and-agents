@@ -2,7 +2,7 @@
 Customer Loyalty Agent Initializer
 Creates or updates the Zava Customer Loyalty Agent in Azure AI Projects.
 This script handles the initialization and configuration of the customer loyalty agent.
-Version: 1.0
+Version: 1.1
 """
 import os
 import sys
