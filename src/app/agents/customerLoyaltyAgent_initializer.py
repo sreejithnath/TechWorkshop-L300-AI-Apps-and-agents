@@ -19,8 +19,13 @@ load_dotenv()
 CL_PROMPT_TARGET = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'prompts', 'CustomerLoyaltyAgentPrompt.txt')
 with open(CL_PROMPT_TARGET, 'r', encoding='utf-8') as file:
     CL_PROMPT = file.read()
+
 project_endpoint= os.getenv("AZURE_AI_AGENT_ENDPOINT")
+if not project_endpoint:
+    raise ValueError("AZURE_AI_AGENT_ENDPOINT environment variable is required but not set")
+
 agent_id = os.getenv("customer_loyalty")  # Use getenv instead of environ to avoid KeyError
+
 project_client = AIProjectClient(
     endpoint=project_endpoint,
     credential=DefaultAzureCredential(),

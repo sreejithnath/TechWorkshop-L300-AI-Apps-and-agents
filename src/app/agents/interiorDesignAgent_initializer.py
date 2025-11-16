@@ -15,6 +15,9 @@ with open(ID_PROMPT_TARGET, 'r', encoding='utf-8') as file:
     ID_PROMPT = file.read()
 
 project_endpoint = os.getenv("AZURE_AI_AGENT_ENDPOINT")
+if not project_endpoint:
+    raise ValueError("AZURE_AI_AGENT_ENDPOINT environment variable is required but not set")
+
 agent_id = os.getenv("interior_designer")  # Use getenv instead of environ to avoid KeyError
 
 
