@@ -32,7 +32,14 @@ jobs:
       - name: Create .env file from secret
         working-directory: ./src
         run: |
+          if [ -z "${{ secrets.ENV }}" ]; then
+            echo "ERROR: ENV secret is not set!"
+            exit 1
+          fi
           echo "${{ secrets.ENV }}" > .env
+          echo "Created .env file with $(wc -l < .env) lines"
+          echo "First 3 lines:"
+          head -n 3 .env
       
       - name: Log in to Azure
         uses: azure/login@v2
