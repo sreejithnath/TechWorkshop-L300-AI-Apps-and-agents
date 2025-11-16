@@ -31,12 +31,14 @@ jobs:
       
       - name: Create .env file from secret
         working-directory: ./src
+        env:
+          ENV_CONTENT: ${{ secrets.ENV }}
         run: |
-          if [ -z "${{ secrets.ENV }}" ]; then
+          if [ -z "$ENV_CONTENT" ]; then
             echo "ERROR: ENV secret is not set!"
             exit 1
           fi
-          echo "${{ secrets.ENV }}" > .env
+          printf '%s\n' "$ENV_CONTENT" > .env
           echo "Created .env file with $(wc -l < .env) lines"
           echo "First 3 lines:"
           head -n 3 .env
